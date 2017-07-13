@@ -1,8 +1,8 @@
 <?php
 /**
- * canvas Theme Customizer
+ * Desher Khobor Theme Customizer.
  *
- * @package canvas
+ * @package desher-khobor
  */
 
 /**
@@ -10,400 +10,308 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function canvas_customize_register( $wp_customize ) {
+function desher_khobor_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 }
-add_action( 'customize_register', 'canvas_customize_register' );
-
-/**
- * Options for canvas Theme Customizer.
- */
-function canvas_customizer( $wp_customize ) {
-
-    /* Main option Settings Panel */
-    $wp_customize->add_panel('canvas_main_options', array(
-        'capability' => 'edit_theme_options',
-        'theme_supports' => '',
-        'title' => __('Canvas Options', 'canvas'),
-        'description' => __('Panel to update canvas theme options', 'canvas'), // Include html tags such as <p>.
-        'priority' => 10 // Mixed with top-level-section hierarchy.
-    ));
-
-        // add "Content Options" section
-        $wp_customize->add_section( 'canvas_content_section' , array(
-                'title'      => esc_html__( 'Content Options', 'canvas' ),
-                'priority'   => 50,
-                'panel' => 'canvas_main_options'
-        ) );
-            // add setting for excerpts/full posts toggle
-            $wp_customize->add_setting( 'canvas_excerpts', array(
-                    'default'           => 1,
-                    'sanitize_callback' => 'canvas_sanitize_checkbox',
-            ) );
-            // add checkbox control for excerpts/full posts toggle
-            $wp_customize->add_control( 'canvas_excerpts', array(
-                    'label'     => esc_html__( 'Show post excerpts?', 'canvas' ),
-                    'section'   => 'canvas_content_section',
-                    'priority'  => 10,
-                    'type'      => 'checkbox'
-            ) );
-
-            $wp_customize->add_setting( 'canvas_page_comments', array(
-                    'default' => 1,
-                    'sanitize_callback' => 'canvas_sanitize_checkbox',
-            ) );
-            $wp_customize->add_control( 'canvas_page_comments', array(
-                    'label'		=> esc_html__( 'Display Comments on Static Pages?', 'canvas' ),
-                    'section'	=> 'canvas_content_section',
-                    'priority'	=> 20,
-                    'type'      => 'checkbox',
-            ) );
-
-        /* canvas Main Options */
-        $wp_customize->add_section('canvas_slider_options', array(
-            'title' => __('Slider options', 'canvas'),
-            'priority' => 31,
-            'panel' => 'canvas_main_options'
-        ));
-            $wp_customize->add_setting( 'canvas[canvas_slider_checkbox]', array(
-                    'default' => 0,
-                    'type' => 'option',
-                    'sanitize_callback' => 'canvas_sanitize_checkbox',
-            ) );
-            $wp_customize->add_control( 'canvas[canvas_slider_checkbox]', array(
-                    'label'	=> esc_html__( 'Check if you want to enable slider', 'canvas' ),
-                    'section'	=> 'canvas_slider_options',
-                    'priority'	=> 5,
-                    'type'      => 'checkbox',
-            ) );
-
-            // Pull all the categories into an array
-            global $options_categories;
-            $wp_customize->add_setting('canvas[canvas_slide_categories]', array(
-                'default' => '',
-                'type' => 'option',
-                'capability' => 'edit_theme_options',
-                'sanitize_callback' => 'canvas_sanitize_slidecat'
-            ));
-            $wp_customize->add_control('canvas[canvas_slide_categories]', array(
-                'label' => __('Slider Category', 'canvas'),
-                'section' => 'canvas_slider_options',
-                'type'    => 'select',
-                'description' => __('Select a category for the featured post slider', 'canvas'),
-                'choices'    => $options_categories
-            ));
-
-            $wp_customize->add_setting('canvas[canvas_slide_number]', array(
-                'default' => 3,
-                'type' => 'option',
-                'sanitize_callback' => 'canvas_sanitize_number'
-            ));
-            $wp_customize->add_control('canvas[canvas_slide_number]', array(
-                'label' => __('Number of slide items', 'canvas'),
-                'section' => 'canvas_slider_options',
-                'description' => __('Enter the number of slide items', 'canvas'),
-                'type' => 'text'
-            ));
-
-        /* canvas Header Options */
-        $wp_customize->add_section('canvas_header_options', array(
-            'title' => __('Header', 'canvas'),
-            'priority' => 31,
-            'panel' => 'canvas_main_options'
-        ));
-
-            $wp_customize->add_setting('canvas[sticky_header]', array(
-                'default' => 0,
-                'type' => 'option',
-                'sanitize_callback' => 'canvas_sanitize_checkbox'
-            ));
-            $wp_customize->add_control('canvas[sticky_header]', array(
-                'label' => __('Sticky Header', 'canvas'),
-                'description' => sprintf(__('Check to show fixed header', 'canvas')),
-                'section' => 'canvas_header_options',
-                'type' => 'checkbox',
-            ));
-
-            $wp_customize->add_setting('canvas[nav_bg_color]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_bg_color]', array(
-                'label' => __('Top nav background color', 'canvas'),
-                'description'   => __('Default used if no color is selected','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-            $wp_customize->add_setting('canvas[nav_link_color]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_link_color]', array(
-                'label' => __('Top nav item color', 'canvas'),
-                'description'   => __('Link color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-            $wp_customize->add_setting('canvas[nav_item_hover_color]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_item_hover_color]', array(
-                'label' => __('Top nav item hover color', 'canvas'),
-                'description'   => __('Link:hover color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-            $wp_customize->add_setting('canvas[nav_dropdown_bg]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_dropdown_bg]', array(
-                'label' => __('Top nav dropdown background color', 'canvas'),
-                'description'   => __('Background of dropdown item hover color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-            $wp_customize->add_setting('canvas[nav_dropdown_item]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_dropdown_item]', array(
-                'label' => __('Top nav dropdown item color', 'canvas'),
-                'description'   => __('Dropdown item color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-            $wp_customize->add_setting('canvas[nav_dropdown_item_hover]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_dropdown_item_hover]', array(
-                'label' => __('Top nav dropdown item hover color', 'canvas'),
-                'description'   => __('Dropdown item hover color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-            $wp_customize->add_setting('canvas[nav_dropdown_bg_hover]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[nav_dropdown_bg_hover]', array(
-                'label' => __('Top nav dropdown item background hover color', 'canvas'),
-                'description'   => __('Background of dropdown item hover color','canvas'),
-                'section' => 'canvas_header_options',
-            )));
-
-        /* canvas Social Options */
-        $wp_customize->add_section('canvas_social_options', array(
-            'title' => __('Social', 'canvas'),
-            'priority' => 31,
-            'panel' => 'canvas_main_options'
-        ));
-            $wp_customize->add_setting('canvas[social_color]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[social_color]', array(
-                'label' => __('Social icon color', 'canvas'),
-                'description' => sprintf(__('Default used if no color is selected', 'canvas')),
-                'section' => 'canvas_social_options',
-            )));
-
-            $wp_customize->add_setting('canvas[social_footer_color]', array(
-                'default' => '',
-                'type'  => 'option',
-                'sanitize_callback' => 'canvas_sanitize_hexcolor'
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'canvas[social_footer_color]', array(
-                'label' => __('Footer social icon color', 'canvas'),
-                'description' => sprintf(__('Default used if no color is selected', 'canvas')),
-                'section' => 'canvas_social_options',
-            )));
-
-            $wp_customize->add_setting('canvas[footer_social]', array(
-                'default' => 0,
-                'type' => 'option',
-                'sanitize_callback' => 'canvas_sanitize_checkbox'
-            ));
-            $wp_customize->add_control('canvas[footer_social]', array(
-                'label' => __('Footer Social Icons', 'canvas'),
-                'description' => sprintf(__('Check to show social icons in footer', 'canvas')),
-                'section' => 'canvas_social_options',
-                'type' => 'checkbox',
-            ));
-}
-add_action( 'customize_register', 'canvas_customizer' );
-
-/**
- * Sanitzie checkbox for WordPress customizer
- */
-function canvas_sanitize_checkbox( $input ) {
-    if ( $input == 1 ) {
-        return 1;
-    } else {
-        return '';
-    }
-}
-/**
- * Adds sanitization callback function: colors
- * @package canvas
- */
-function canvas_sanitize_hexcolor($color) {
-    if ($unhashed = sanitize_hex_color_no_hash($color))
-        return '#' . $unhashed;
-    return $color;
-}
-
-/**
- * Adds sanitization callback function: Nohtml
- * @package canvas
- */
-function canvas_sanitize_nohtml($input) {
-    return wp_filter_nohtml_kses($input);
-}
-
-/**
- * Adds sanitization callback function: Number
- * @package canvas
- */
-function canvas_sanitize_number($input) {
-    if ( isset( $input ) && is_numeric( $input ) ) {
-        return $input;
-    }
-}
-
-/**
- * Adds sanitization callback function: Strip Slashes
- * @package canvas
- */
-function canvas_sanitize_strip_slashes($input) {
-    return wp_kses_stripslashes($input);
-}
-
-/**
- * Adds sanitization callback function: Sanitize Text area
- * @package canvas
- */
-function canvas_sanitize_textarea($input) {
-    return sanitize_text_field($input);
-}
-
-/**
- * Adds sanitization callback function: Slider Category
- * @package canvas
- */
-function canvas_sanitize_slidecat( $input ) {
-    global $options_categories;
-    if ( array_key_exists( $input, $options_categories ) ) {
-        return $input;
-    } else {
-        return '';
-    }
-}
-
-/**
- * Adds sanitization callback function: Sidebar Layout
- * @package canvas
- */
-function canvas_sanitize_layout( $input ) {
-    global $site_layout;
-    if ( array_key_exists( $input, $site_layout ) ) {
-        return $input;
-    } else {
-        return '';
-    }
-}
-
-/**
- * Adds sanitization callback function: Typography Size
- * @package canvas
- */
-function canvas_sanitize_typo_size( $input ) {
-    global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['sizes'] ) ) {
-        return $input;
-    } else {
-        return $typography_defaults['size'];
-    }
-}
-/**
- * Adds sanitization callback function: Typography Face
- * @package canvas
- */
-function canvas_sanitize_typo_face( $input ) {
-    global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['faces'] ) ) {
-        return $input;
-    } else {
-        return $typography_defaults['face'];
-    }
-}
-/**
- * Adds sanitization callback function: Typography Style
- * @package canvas
- */
-function canvas_sanitize_typo_style( $input ) {
-    global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['styles'] ) ) {
-        return $input;
-    } else {
-        return $typography_defaults['style'];
-    }
-}
+add_action( 'customize_register', 'desher_khobor_customize_register' );
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-function canvas_customize_preview_js() {
-	wp_enqueue_script( 'canvas_customizer', get_template_directory_uri() . '/inc/js/customizer.js', array( 'customize-preview' ), '20140317', true );
+function desher_khobor_customize_preview_js() {
+	wp_enqueue_script( 'desher_khobor_customizer_preview', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '1.0', true );
 }
-add_action( 'customize_preview_init', 'canvas_customize_preview_js' );
+// add_action( 'customize_preview_init', 'desher_khobor_customize_preview_js' );
 
 /**
- * Add CSS for custom controls
+ * [desher_khobor_theme_option description]
+ * @param  [type] $wp_customize [description]
  */
-function canvas_customizer_custom_control_css() {
-	?>
-    <style>
-        #customize-control-canvas-main_body_typography-size select, #customize-control-canvas-main_body_typography-face select,#customize-control-canvas-main_body_typography-style select { width: 60%; }
-    </style><?php
+function desher_khobor_theme_option( $wp_customize ) {
+    // panel
+    $wp_customize->add_panel( 'theme_options', array(
+        'title'          => __( 'Theme Options', 'desherkhobor' ),
+        'capability'     => 'edit_theme_options',
+        'priority'       => 130,
+        'theme_supports' => '',
+    ));
 }
-add_action( 'customize_controls_print_styles', 'canvas_customizer_custom_control_css' );
+add_action( 'customize_register', 'desher_khobor_theme_option' );
 
-
-/*
- * Custom Scripts
+/**
+ * [desher_khobor_social_array description]
+ * @return [type] [description]
  */
-add_action( 'customize_controls_print_footer_scripts', 'customizer_custom_scripts' );
+function desher_khobor_social_array() {
 
-function customizer_custom_scripts() { ?>
-<script type="text/javascript">
-    jQuery(document).ready(function() {
-        /* This one shows/hides the an option when a checkbox is clicked. */
-        jQuery('#customize-control-canvas-canvas_slide_categories, #customize-control-canvas-canvas_slide_number').hide();
-        jQuery('#customize-control-canvas-canvas_slider_checkbox input').click(function() {
-            jQuery('#customize-control-canvas-canvas_slide_categories, #customize-control-canvas-canvas_slide_number').fadeToggle(400);
-        });
+    $social_sites = array(
+        'facebook'      => 'dk_facebook_profile',
+        'twitter'       => 'dk_twitter_profile',
+        'google-plus'   => 'dk_googleplus_profile',
+        'linkedin'      => 'dk_linkedin_profile',
+        'rss'           => 'dk_rss_profile'
+    );
 
-        if (jQuery('#customize-control-canvas-canvas_slider_checkbox input:checked').val() !== undefined) {
-            jQuery('#customize-control-canvas-canvas_slide_categories, #customize-control-canvas-canvas_slide_number').show();
+    return apply_filters( 'desher_khobor_social_array_filter', $social_sites );
+}
+/**
+ * [desher_khobor_social_link_section description]
+ * @param  [type] $wp_customize [description]
+ * @return [type]               [description]
+ */
+function desher_khobor_social_link_section( $wp_customize ) {
+
+    $social_sites = desher_khobor_social_array();
+
+    // set a priority used to order the social sites
+    $priority = 5;
+
+    // section
+    $wp_customize->add_section( 'desher_khobor_social_icon', array(
+        'title'       => __( 'Social Media Links', 'desherkhobor' ),
+        'description' => __( 'Add the URL for each of your social profiles.', 'desherkhobor' ),
+        'priority'    => 10,
+        'panel'       => 'theme_options' // Not typically needed.
+    ) );
+
+    // create a setting and control for each social site
+    foreach ( $social_sites as $social_site => $value ) {
+
+        $label = ucfirst( $social_site );
+
+        if ( $social_site == 'google-plus' ) {
+            $label = 'Google Plus';
+        } elseif ( $social_site == 'rss' ) {
+            $label = 'RSS';
         }
-    });
-</script>
-<style>
-    li#accordion-section-canvas_important_links h3.accordion-section-title, li#accordion-section-canvas_important_links h3.accordion-section-title:focus { background-color: #00cc00 !important; color: #fff !important; }
-    li#accordion-section-canvas_important_links h3.accordion-section-title:hover { background-color: #00b200 !important; color: #fff !important; }
-    li#accordion-section-canvas_important_links h3.accordion-section-title:after { color: #fff !important; }
-</style>
-<?php
+        // setting
+        $wp_customize->add_setting( $social_site, array(
+            'type'              => 'theme_mod',
+            'sanitize_callback' => 'esc_url_raw'
+        ) );
+        // control
+        $wp_customize->add_control( $social_site, array(
+            'type'     => 'url',
+            'label'    => $label,
+            'section'  => 'desher_khobor_social_icon',
+            'priority' => $priority
+        ) );
+        // increment the priority for next site
+        $priority = $priority + 5;
+    }
 }
+add_action( 'customize_register', 'desher_khobor_social_link_section' );
+
+/**
+ * [desher_khobor_show_social_icons description]
+ * @return [type] [description]
+ */
+function desher_khobor_show_social_icons() {
+
+    $social_sites = desher_khobor_social_array();
+
+    // Any inputs that aren't empty are stored in $active_sites array
+    foreach( $social_sites as $social_site => $value ) {
+        if ( strlen( get_theme_mod( $social_site ) ) > 0 ) {
+            $active_sites[] = $social_site;
+        }
+    }
+
+    // For each active social site, add it as a list item
+    if ( !empty( $active_sites ) ) {
+        echo "<ul class='list-inline'>";
+
+        foreach ( $active_sites as $active_site ) {
+            $label = ucfirst( $active_site );
+            if ( $active_site == 'google-plus' ) {
+                $label = 'Google Plus';
+            } elseif ( $active_site == 'linkedin' ) {
+                $label = 'LinkedIn';
+            } elseif ( $active_site == 'rss' ) {
+                $label = 'RSS';
+            } ?>
+            <li>
+                <a href="<?php echo get_theme_mod( $active_site ); ?>" class="<?php echo $active_site; ?>" target="_blank" data-toggle="tooltip" data-placement="left" title="<?php echo $label; ?>">
+                    <i class="fa fa-fw fa-<?php echo $active_site; ?>" aria-hidden="true"></i>
+                </a>
+            </li> <?php
+        }
+        echo "</ul>";
+    }
+}
+
+/**
+ * [desher_khobor_marquee_newsfeed description]
+ * @param  [type] $wp_customize [description]
+ * @return [type]               [description]
+ */
+function desher_khobor_marquee_newsfeed( $wp_customize ) {
+    // section
+    $wp_customize->add_section( 'marquee_newsfeed', array(
+        'title'       => __( 'Top Scrolling Newsfeed', 'desherkhobor' ),
+        'description' => __( 'Select Tag for Top Scrolling Newsfeed', 'desherkhobor' ),
+        'priority'    => 20,
+        'panel'       => 'theme_options' // Not typically needed.
+    ) );
+
+    $tags = array();
+    foreach ( get_tags() as $tag ) {
+        $tags[$tag->term_id] = $tag->name;
+    }
+
+    // setting
+    $wp_customize->add_setting( 'tag_selection', array(
+        'type'              => 'theme_mod',
+        'sanitize_callback' => ''
+    ) );
+    // control
+    $wp_customize->add_control( 'tag_selection', array(
+        'label'       => __('Select Tag', 'desherkhobor'),
+        'type'        => 'select',
+        'choices'     => $tags,
+        'section'     => 'marquee_newsfeed',
+    ) );
+}
+add_action( 'customize_register', 'desher_khobor_marquee_newsfeed' );
+
+/**
+ * [show_headlines description]
+ * @return [type] [description]
+ */
+function show_headlines( $tag_name, $post_count = 15 ) {
+    $new = new WP_Query( array( 'post_type' => 'post', 'tag_id' => $tag_name, 'posts_per_page' => $post_count, 'caller_get_posts' => 1 ) );
+    if( $new->have_posts() ) {
+        while ( $new->have_posts() ) : $new->the_post();
+            echo'<a href="'; the_permalink(); echo'" class="h5">'.get_the_title().'</a> ** ';
+        endwhile;
+    }
+    wp_reset_query();
+}
+
+/**
+ * [desher_khbor_homepage_news_slider description]
+ * @param  [type] $wp_customize [description]
+ */
+function desher_khobor_homepage_news_slider( $wp_customize ) {
+    // section
+    $wp_customize->add_section( 'home_news_slider', array(
+        'title'          => __( 'Front Page News Carousel', 'desherkhobor' ),
+        'description'    => __( 'Settings for Front Page Image Corousel', 'desherkhobor' ),
+        'panel'          => 'theme_options',
+        'priority'       => 30,
+    ) );
+
+    $tags = array();
+    foreach ( get_tags() as $tag ) {
+        $tags[$tag->term_id] = $tag->name;
+    }
+
+    // setting
+    $wp_customize->add_setting( 'slider_tag', array(
+        'type'              => 'theme_mod',
+        'sanitize_callback' => ''
+    ) );
+    $wp_customize->add_setting( 'slider_number', array(
+        'type'              => 'theme_mod',
+        'default'           => 5,
+        'sanitize_callback' => ''
+    ) );
+    // control
+    $wp_customize->add_control( 'slider_tag', array(
+        'label'       => __('Select Tag', 'desherkhobor'),
+        'description' => __( 'Select news tag to show.', 'desherkhobor' ),
+        'type'        => 'select',
+        'choices'     => $tags,
+        'section'     => 'home_news_slider',
+        'priority'    => 10
+    ) );
+    $wp_customize->add_control( 'slider_number', array(
+        'label'       => __('Number of Posts', 'desherkhobor'),
+        'description' => __( 'Input number of post to show. (Min = 3, Max = 25)', 'desherkhobor' ),
+        'type'        => 'number',
+        'input_attrs' => array('min' => '3', 'max' => '25'),
+        'section'     => 'home_news_slider',
+        'priority'    => 20
+    ) );
+}
+add_action( 'customize_register', 'desher_khobor_homepage_news_slider' );
+
+/**
+ * [desher_khobor_show_carousel description]
+ * @param  [type]  $tag_name   [description]
+ * @param  integer $post_count [description]
+ */
+function desher_khobor_show_carousel() {
+    $tag_id     =  get_theme_mod( 'slider_tag' );
+    $post_count =  get_theme_mod( 'slider_number' );
+    $i = 0;
+    $active = 1;
+
+    $carousel = new WP_Query( array( 'post_type' => 'post', 'tag_id' => $tag_id, 'posts_per_page' => $post_count, 'caller_get_posts' => 1 ) );
+    ?>
+    <div id="front-carousel" class="carousel slide" data-ride="carousel">
+    <?php if( $carousel->have_posts() ) { ?>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+        <?php while ( $carousel->have_posts() ) : $carousel->the_post(); ?>
+            <?php $image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' ); ?>
+            <div style="background: url('<?php echo $image[0]; ?>') no-repeat center top; background-size: cover; height: 400px; width: 100%;" class="item <?php echo ( $active = $active && !$i ) ? 'active' : '' ;?>">
+                <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( '%s', 'desherkhobor' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="carousel-caption" rel="bookmark"><h5><?php the_title(); ?></h5></a>
+            </div>
+        <?php $i++; endwhile;
+    } ?>
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#front-carousel" role="button" data-slide="prev">
+            <span class="fa fa-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#front-carousel" role="button" data-slide="next">
+            <span class="fa fa-chevron-right"></span>
+        </a>
+    </div> <!-- end of front-carousel -->
+    <?php wp_reset_query();
+}
+
+/**
+ * [desher_khobor_homepage_news_category description]
+ * @param  [type] $wp_customize [description]
+ * @return [type]               [description]
+ */
+function desher_khobor_homepage_news_category( $wp_customize ) {
+    // section
+    $wp_customize->add_section( 'home_news_category', array(
+        'title'          => __( 'Front Page News Categories', 'desherkhobor' ),
+        'panel'          => 'theme_options',
+        'priority'       => 40,
+    ) );
+
+    // set a priority used to order the social sites
+    $priority = 5;
+
+    // we loop over the categories and set the names and
+    // labels we need
+    $cats = array();
+    foreach ( get_categories() as $categories => $category ) {
+        $cats[$category->term_id] = $category->name;
+    }
+
+    for ($i=1; $i <= 3 ; $i++) {
+        // setting
+        $wp_customize->add_setting( 'category_' . $i, array(
+            'sanitize_callback' => ''
+        ) );
+        // control
+        $wp_customize->add_control('category_' . $i, array(
+            'label'    => sprintf( __( 'Section %d', 'desherkhobor'), $i ),
+            'section'  => __( 'home_news_category' ),
+            'type'     => 'select',
+            'choices'  => $cats,
+            'priority' => $priority,
+        ) );
+        // increment the priority for next site
+        $priority = $priority + 5;
+    }
+}
+add_action( 'customize_register', 'desher_khobor_homepage_news_category' );
