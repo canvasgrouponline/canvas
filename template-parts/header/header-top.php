@@ -16,7 +16,7 @@
 
     <div class="col-md-3 <?php if ( ! has_nav_menu( 'top' ) ) : ?> col-md-offset-6 <?php endif; ?>">
         <div class="social-links pull-right">
-            <?php desher_khobor_show_social_icons(); ?>
+            <?php canvas_photo_show_social_icons(); ?>
         </div>
     </div>
 </div> <!-- .top-header-bar -->

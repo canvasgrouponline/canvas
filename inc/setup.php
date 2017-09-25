@@ -1,13 +1,13 @@
 <?php
 /**
- * desher-khobor functions and definitions.
+ * canvas functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package desher-khobor
+ * @package canvas
  */
 
-if ( ! function_exists( 'desher_khobor_setup' ) ) :
+if ( ! function_exists( 'canvas_photo_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -15,7 +15,7 @@ if ( ! function_exists( 'desher_khobor_setup' ) ) :
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
-function desher_khobor_setup() {
+function canvas_photo_setup() {
     /*
      * Make theme available for translation.
      * Translations can be filed in the /languages/ directory.
@@ -60,7 +60,7 @@ function desher_khobor_setup() {
     ) );
 }
 endif;
-add_action( 'after_setup_theme', 'desher_khobor_setup' );
+add_action( 'after_setup_theme', 'canvas_photo_setup' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -69,17 +69,17 @@ add_action( 'after_setup_theme', 'desher_khobor_setup' );
  *
  * @global int $content_width
  */
-function desher_khobor_content_width() {
-    $GLOBALS['content_width'] = apply_filters( 'desher_khobor_content_width', 1170 );
+function canvas_photo_content_width() {
+    $GLOBALS['content_width'] = apply_filters( 'canvas_photo_content_width', 1170 );
 }
-add_action( 'after_setup_theme', 'desher_khobor_content_width', 0 );
+add_action( 'after_setup_theme', 'canvas_photo_content_width', 0 );
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function desher_khobor_widgets_init() {
+function canvas_photo_widgets_init() {
     register_sidebar( array(
         'name'          => __( 'Front Page', 'desherkhobor' ),
         'id'            => 'sidebar-front',
@@ -99,7 +99,7 @@ function desher_khobor_widgets_init() {
         'after_title'   => '</h5>',
     ) );
 }
-add_action( 'widgets_init', 'desher_khobor_widgets_init' );
+add_action( 'widgets_init', 'canvas_photo_widgets_init' );
 
 /**
  * Filter the except length to 20 words.
@@ -107,10 +107,10 @@ add_action( 'widgets_init', 'desher_khobor_widgets_init' );
  * @param int $length Excerpt length.
  * @return int (Maybe) modified excerpt length.
  */
-function desher_khobor_custom_excerpt_length( $length ) {
+function canvas_photo_custom_excerpt_length( $length ) {
     return 30;
 }
-add_filter( 'excerpt_length', 'desher_khobor_custom_excerpt_length', 999 );
+add_filter( 'excerpt_length', 'canvas_photo_custom_excerpt_length', 999 );
 
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with ... and

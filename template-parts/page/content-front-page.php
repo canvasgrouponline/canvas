@@ -2,7 +2,7 @@
 /**
  * Displays content for front page
  *
- * @package desher-khobor
+ * @package canvas
  * @since 2.2.0
  * @version 1.0
  */
@@ -13,7 +13,7 @@ get_header(); ?>
 
     <section class="carousel-area row">
         <div class="col-md-12">
-            <?php desher_khobor_show_carousel(); ?>
+            <?php canvas_photo_show_carousel(); ?>
         </div>
     </section>
 

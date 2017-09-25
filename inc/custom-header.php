@@ -13,21 +13,21 @@
  * @link https://developer.wordpress.org/themes/functionality/custom-headers/
  * @link https://codex.wordpress.org/Custom_Headers
  *
- * @package desher-khobor
+ * @package canvas
  */
 
 /**
  * Set up the WordPress core custom header feature.
  *
- * @uses desher_khobor_header_style()
+ * @uses canvas_photo_header_style()
  */
-function desher_khobor_custom_header_setup() {
-    add_theme_support( 'custom-header', apply_filters( 'desher_khobor_custom_header_args', array(
+function canvas_photo_custom_header_setup() {
+    add_theme_support( 'custom-header', apply_filters( 'canvas_photo_custom_header_args', array(
         'default-image'          => get_parent_theme_file_uri( '/assets/images/header.png' ),
         'width'                  => 600,
         'height'                 => 160,
         'flex-height'            => true,
-        'wp-head-callback'       => 'desher_khobor_header_style',
+        'wp-head-callback'       => 'canvas_photo_header_style',
     ) ) );
 
     register_default_headers( array(
@@ -38,15 +38,15 @@ function desher_khobor_custom_header_setup() {
         ),
     ) );
 }
-add_action( 'after_setup_theme', 'desher_khobor_custom_header_setup' );
+add_action( 'after_setup_theme', 'canvas_photo_custom_header_setup' );
 
-if ( ! function_exists( 'desher_khobor_header_style' ) ) :
+if ( ! function_exists( 'canvas_photo_header_style' ) ) :
 /**
  * Styles the header image and text displayed on the blog.
  *
- * @see desher_khobor_custom_header_setup().
+ * @see canvas_photo_custom_header_setup().
  */
-function desher_khobor_header_style() {
+function canvas_photo_header_style() {
     $header_text_color = get_header_textcolor();
 
     /*

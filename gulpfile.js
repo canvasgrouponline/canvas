@@ -137,6 +137,15 @@ var uglify       = require('gulp-uglify');           // Minifies JS files
 // Image realted plugins.
 var imagemin     = require('gulp-imagemin');         // Minify PNG, JPEG, GIF and SVG images with imagemin.
 
+// Github related plugins
+var fs           = require('fs');
+var git          = require('gulp-git');
+var bump         = require('gulp-bump');
+var shell        = require('gulp-shell');
+var prompt       = require('gulp-prompt');
+var replace      = require('gulp-replace');
+var gitChangelog = require('gulp-conventional-changelog');
+
 // Utility related plugins.
 var browserSync  = require('browser-sync').create(); // Reloads browser and injects CSS. Time-saving synchronised browser testing.
 var cache        = require('gulp-cache');
@@ -198,7 +207,7 @@ function errorLog(error) {
  */
 gulp.task('update-function-name', function(done) {
   return gulp.src([ './**/*.php' ])
-    .pipe(replace( 'wp_theme_boilerplate', 'canvas_photo' ))
+    .pipe(replace( 'desher-khobor', 'canvas' ))
     .pipe(gulp.dest( './' ))
     done();
 });

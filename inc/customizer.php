@@ -2,7 +2,7 @@
 /**
  * Desher Khobor Theme Customizer.
  *
- * @package desher-khobor
+ * @package canvas
  */
 
 /**
@@ -10,26 +10,26 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function desher_khobor_customize_register( $wp_customize ) {
+function canvas_photo_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 }
-add_action( 'customize_register', 'desher_khobor_customize_register' );
+add_action( 'customize_register', 'canvas_photo_customize_register' );
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-function desher_khobor_customize_preview_js() {
-	wp_enqueue_script( 'desher_khobor_customizer_preview', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '1.0', true );
+function canvas_photo_customize_preview_js() {
+	wp_enqueue_script( 'canvas_photo_customizer_preview', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '1.0', true );
 }
-// add_action( 'customize_preview_init', 'desher_khobor_customize_preview_js' );
+// add_action( 'customize_preview_init', 'canvas_photo_customize_preview_js' );
 
 /**
- * [desher_khobor_theme_option description]
+ * [canvas_photo_theme_option description]
  * @param  [type] $wp_customize [description]
  */
-function desher_khobor_theme_option( $wp_customize ) {
+function canvas_photo_theme_option( $wp_customize ) {
     // panel
     $wp_customize->add_panel( 'theme_options', array(
         'title'          => __( 'Theme Options', 'desherkhobor' ),
@@ -38,13 +38,13 @@ function desher_khobor_theme_option( $wp_customize ) {
         'theme_supports' => '',
     ));
 }
-add_action( 'customize_register', 'desher_khobor_theme_option' );
+add_action( 'customize_register', 'canvas_photo_theme_option' );
 
 /**
- * [desher_khobor_social_array description]
+ * [canvas_photo_social_array description]
  * @return [type] [description]
  */
-function desher_khobor_social_array() {
+function canvas_photo_social_array() {
 
     $social_sites = array(
         'facebook'      => 'dk_facebook_profile',
@@ -54,22 +54,22 @@ function desher_khobor_social_array() {
         'rss'           => 'dk_rss_profile'
     );
 
-    return apply_filters( 'desher_khobor_social_array_filter', $social_sites );
+    return apply_filters( 'canvas_photo_social_array_filter', $social_sites );
 }
 /**
- * [desher_khobor_social_link_section description]
+ * [canvas_photo_social_link_section description]
  * @param  [type] $wp_customize [description]
  * @return [type]               [description]
  */
-function desher_khobor_social_link_section( $wp_customize ) {
+function canvas_photo_social_link_section( $wp_customize ) {
 
-    $social_sites = desher_khobor_social_array();
+    $social_sites = canvas_photo_social_array();
 
     // set a priority used to order the social sites
     $priority = 5;
 
     // section
-    $wp_customize->add_section( 'desher_khobor_social_icon', array(
+    $wp_customize->add_section( 'canvas_photo_social_icon', array(
         'title'       => __( 'Social Media Links', 'desherkhobor' ),
         'description' => __( 'Add the URL for each of your social profiles.', 'desherkhobor' ),
         'priority'    => 10,
@@ -95,22 +95,22 @@ function desher_khobor_social_link_section( $wp_customize ) {
         $wp_customize->add_control( $social_site, array(
             'type'     => 'url',
             'label'    => $label,
-            'section'  => 'desher_khobor_social_icon',
+            'section'  => 'canvas_photo_social_icon',
             'priority' => $priority
         ) );
         // increment the priority for next site
         $priority = $priority + 5;
     }
 }
-add_action( 'customize_register', 'desher_khobor_social_link_section' );
+add_action( 'customize_register', 'canvas_photo_social_link_section' );
 
 /**
- * [desher_khobor_show_social_icons description]
+ * [canvas_photo_show_social_icons description]
  * @return [type] [description]
  */
-function desher_khobor_show_social_icons() {
+function canvas_photo_show_social_icons() {
 
-    $social_sites = desher_khobor_social_array();
+    $social_sites = canvas_photo_social_array();
 
     // Any inputs that aren't empty are stored in $active_sites array
     foreach( $social_sites as $social_site => $value ) {
@@ -143,11 +143,11 @@ function desher_khobor_show_social_icons() {
 }
 
 /**
- * [desher_khobor_marquee_newsfeed description]
+ * [canvas_photo_marquee_newsfeed description]
  * @param  [type] $wp_customize [description]
  * @return [type]               [description]
  */
-function desher_khobor_marquee_newsfeed( $wp_customize ) {
+function canvas_photo_marquee_newsfeed( $wp_customize ) {
     // section
     $wp_customize->add_section( 'marquee_newsfeed', array(
         'title'       => __( 'Top Scrolling Newsfeed', 'desherkhobor' ),
@@ -174,7 +174,7 @@ function desher_khobor_marquee_newsfeed( $wp_customize ) {
         'section'     => 'marquee_newsfeed',
     ) );
 }
-add_action( 'customize_register', 'desher_khobor_marquee_newsfeed' );
+add_action( 'customize_register', 'canvas_photo_marquee_newsfeed' );
 
 /**
  * [show_headlines description]
@@ -194,7 +194,7 @@ function show_headlines( $tag_name, $post_count = 15 ) {
  * [desher_khbor_homepage_news_slider description]
  * @param  [type] $wp_customize [description]
  */
-function desher_khobor_homepage_news_slider( $wp_customize ) {
+function canvas_photo_homepage_news_slider( $wp_customize ) {
     // section
     $wp_customize->add_section( 'home_news_slider', array(
         'title'          => __( 'Front Page News Carousel', 'desherkhobor' ),
@@ -236,14 +236,14 @@ function desher_khobor_homepage_news_slider( $wp_customize ) {
         'priority'    => 20
     ) );
 }
-add_action( 'customize_register', 'desher_khobor_homepage_news_slider' );
+add_action( 'customize_register', 'canvas_photo_homepage_news_slider' );
 
 /**
- * [desher_khobor_show_carousel description]
+ * [canvas_photo_show_carousel description]
  * @param  [type]  $tag_name   [description]
  * @param  integer $post_count [description]
  */
-function desher_khobor_show_carousel() {
+function canvas_photo_show_carousel() {
     $tag_id     =  get_theme_mod( 'slider_tag' );
     $post_count =  get_theme_mod( 'slider_number' );
     $i = 0;
@@ -275,11 +275,11 @@ function desher_khobor_show_carousel() {
 }
 
 /**
- * [desher_khobor_homepage_news_category description]
+ * [canvas_photo_homepage_news_category description]
  * @param  [type] $wp_customize [description]
  * @return [type]               [description]
  */
-function desher_khobor_homepage_news_category( $wp_customize ) {
+function canvas_photo_homepage_news_category( $wp_customize ) {
     // section
     $wp_customize->add_section( 'home_news_category', array(
         'title'          => __( 'Front Page News Categories', 'desherkhobor' ),
@@ -314,4 +314,4 @@ function desher_khobor_homepage_news_category( $wp_customize ) {
         $priority = $priority + 5;
     }
 }
-add_action( 'customize_register', 'desher_khobor_homepage_news_category' );
+add_action( 'customize_register', 'canvas_photo_homepage_news_category' );
