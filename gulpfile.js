@@ -29,10 +29,10 @@
 
 // START Editing Project Variables.
 // Project related.
-var project              = 'desherkhoborun';                          // Project Name
-var projectURL           = 'http://desherkhobor.dev';                 // Project URL
+var project              = 'canvas';                                  // Project Name
+var projectURL           = 'http://canvasonline.dev';                 // Project URL
 var productURL           = './';                                      // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder
-var build                = './buildtheme/';                           // Files that you want to package into a zip go here
+var build                = './buildTheme/';                           // Files that you want to package into a zip go here
 var buildInclude  = [
     // include common file types
     '**/*.php',
@@ -56,14 +56,13 @@ var buildInclude  = [
     '!files/**/*',
     '!style.css.map',
     '!gulpfile.js',
-    '!assets/src/styles/*',
-    '!assets/src/scripts/*'
+    '!src/*'
   ];
 
 // Translation related.
-var text_domain          = 'desherkhobor';                            // Your textdomain here
-var destFile             = 'desherkhobor.pot';                        // Name of the transalation file
-var packageName          = 'desherkhobor';                            // Package name
+var text_domain          = 'canvas';                            // Your textdomain here
+var destFile             = 'canvas.pot';                        // Name of the transalation file
+var packageName          = 'canvas';                            // Package name
 var bugReport            = 'http://jobayerarman.github.io/';          // Where can users report bugs
 var lastTranslator       = 'Jobayer Arman <carbonjha@gmail.com>';     // Last translator Email ID
 var team                 = 'Jobayer Arman <carbonjha@email.com>';     // Team's Email ID
@@ -71,14 +70,14 @@ var translatePath        = './languages'                              // Where t
 
 // Style related
 var style = {
-  src    : './assets/src/styles/main.less',                // Path to main .less file
+  src    : './src/styles/main.less',                       // Path to main .less file
   dest   : './assets/styles/',                             // Path to place the compiled CSS file
   destFiles  : './assets/styles/*.+(css|map)'              // Destination files
 };
 
 // JavaScript related
 var script = {
-  src    : './assets/src/scripts/*.js',                    // Path to JS custom scripts folder
+  src    : './src/scripts/*.js',                           // Path to JS custom scripts folder
   dest   : './assets/scripts/',                            // Path to place the compiled JS custom scripts file
   file   : 'script.js',                                    // Compiled JS custom file name
   destFiles   : './assets/scripts/*.js'                    // Destination files
@@ -86,14 +85,14 @@ var script = {
 
 // Images related.
 var image = {
-  src    : './assets/src/img/**/*.{png,jpg,gif,svg}',      // Source folder of images which should be optimized
+  src    : './src/img/**/*.{png,jpg,gif,svg}',             // Source folder of images which should be optimized
   dest   : './assets/img/'                                 // Destination folder of optimized images
 }
 
 // Watch files paths.
 var watch = {
-  style  : './assets/src/styles/**/*.less',                // Path to all *.less files inside css folder and inside them
-  script : './assets/src/scripts/*.js',                    // Path to all custom JS files
+  style  : './src/styles/**/*.less',                       // Path to all *.less files inside css folder and inside them
+  script : './src/scripts/*.js',                           // Path to all custom JS files
   php    : './**/*.php'                                    // Path to all PHP files
 }
 
