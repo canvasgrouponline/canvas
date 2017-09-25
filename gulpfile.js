@@ -192,6 +192,47 @@ function errorLog(error) {
 };
 
 /**
+ * Theme Dev Setup
+ *
+ * Task:
+ */
+gulp.task('update-function-name', function(done) {
+  return gulp.src([ './**/*.php' ])
+    .pipe(replace( 'wp_theme_boilerplate', 'canvas_photo' ))
+    .pipe(gulp.dest( './' ))
+    done();
+});
+gulp.task('update-package-name', function(done) {
+  return gulp.src([ './**/*.php' ])
+    .pipe(replace( /(@package)(\s*)(.*)/, '$1$2' +project ))
+    .pipe(gulp.dest( './' ))
+    done();
+});
+gulp.task('update:all-name', gulpSequence('update-function-name', 'update-package-name'));
+
+/**
+ * Github release workflow
+ *
+ * Task: bump version
+ */
+function getPackageJsonVersion() {
+  return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
+}
+gulp.task( 'bump-version', function (done) {
+  return gulp.src(['./package.json'])
+    .pipe(bump({type: 'patch'}).on('error', gutil.log))
+    .pipe(gulp.dest('./'))
+    done();
+});
+gulp.task('update-wp-style-css', function(done) {
+  return gulp.src(['./style.css'])
+    .pipe(replace( /(Version:)(\s*)(.*)/, '$1$2' + getPackageJsonVersion() ))
+    .pipe(gulp.dest('./'))
+    done();
+});
+gulp.task('bump:all', gulpSequence('bump-version', 'update-wp-style-css'));
+
+/**
  * Task: Cleanup
  *
  * Cleans destination files
@@ -222,6 +263,9 @@ gulp.task( 'browser-sync', function() {
 
     // Project URL.
     proxy: projectURL,
+
+    // Will not attempt to determine your network status, assumes you're ONLINE
+    online: true,
 
     // `true` Automatically open the browser with BrowserSync live server.
     // `false` Stop the browser from automatically opening.
@@ -377,7 +421,6 @@ gulp.task( 'translate', function() {
 gulp.task( 'build', function(cb) {
   gulpSequence('clean:all', 'styles', 'scripts', 'buildFiles', 'buildZip', cb);
 });
-
 
 /**
  * Default Gulp task
