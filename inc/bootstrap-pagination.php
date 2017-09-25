@@ -8,8 +8,8 @@ function wp_bootstrap_pagination( $args = array() ) {
     $defaults = array(
         'range'           => 4,
         'custom_query'    => FALSE,
-        'previous_string' => __( 'Previous', 'desherkhobor' ),
-        'next_string'     => __( 'Next', 'desherkhobor' ),
+        'previous_string' => __( 'Previous', 'canvas' ),
+        'next_string'     => __( 'Next', 'canvas' ),
         'before_output'   => '<nav aria-label="Page navigation" class="post-nav text-center"><ul class="pagination">',
         'after_output'    => '</ul></nav>'
     );
@@ -54,10 +54,10 @@ function wp_bootstrap_pagination( $args = array() ) {
 
     $firstpage = esc_attr( get_pagenum_link(1) );
     if ( $firstpage && (1 != $page) )
-        $echo .= '<li class="previous"><a href="' . $firstpage . '">' . __( 'First', 'desherkhobor' ) . '</a></li>';
+        $echo .= '<li class="previous"><a href="' . $firstpage . '">' . __( 'First', 'canvas' ) . '</a></li>';
 
     if ( $previous && (1 != $page) )
-        $echo .= '<li><a href="' . $previous . '" title="' . __( 'previous', 'desherkhobor') . '">' . $args['previous_string'] . '</a></li>';
+        $echo .= '<li><a href="' . $previous . '" title="' . __( 'previous', 'canvas') . '">' . $args['previous_string'] . '</a></li>';
 
     if ( !empty($min) && !empty($max) ) {
         for( $i = $min; $i <= $max; $i++ ) {
@@ -72,11 +72,11 @@ function wp_bootstrap_pagination( $args = array() ) {
     $next = intval($page) + 1;
     $next = esc_attr( get_pagenum_link($next) );
     if ($next && ($count != $page) )
-        $echo .= '<li><a href="' . $next . '" title="' . __( 'next', 'desherkhobor') . '">' . $args['next_string'] . '</a></li>';
+        $echo .= '<li><a href="' . $next . '" title="' . __( 'next', 'canvas') . '">' . $args['next_string'] . '</a></li>';
 
     $lastpage = esc_attr( get_pagenum_link($count) );
     if ( $lastpage ) {
-        $echo .= '<li class="next"><a href="' . $lastpage . '">' . __( 'Last', 'desherkhobor' ) . '</a></li>';
+        $echo .= '<li class="next"><a href="' . $lastpage . '">' . __( 'Last', 'canvas' ) . '</a></li>';
     }
 
     if ( isset($echo) )

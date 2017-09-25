@@ -12,23 +12,8 @@
  * @package canvas
  */
 
-get_header(); ?>
+get_header();
 
-  <div style="margin-top:25px;"></div>
-	<div class="container">
-		<div class="row">
-
-			<?php
-			while ( have_posts() ) : the_post();
-
-				get_template_part( 'template-parts/content', 'page' );
-
-			endwhile; // End of the loop.
-			?>
-
-		</div> <!-- row -->
-	</div> <!-- container -->
-
-<?php
 get_footer();
+
 ?>
