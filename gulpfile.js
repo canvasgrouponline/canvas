@@ -60,9 +60,9 @@ var buildInclude  = [
   ];
 
 // Translation related.
-var text_domain          = 'canvas';                            // Your textdomain here
-var destFile             = 'canvas.pot';                        // Name of the transalation file
-var packageName          = 'canvas';                            // Package name
+var text_domain          = 'canvas';                                  // Your textdomain here
+var destFile             = 'canvas.pot';                              // Name of the transalation file
+var packageName          = 'canvas';                                  // Package name
 var bugReport            = 'http://jobayerarman.github.io/';          // Where can users report bugs
 var lastTranslator       = 'Jobayer Arman <carbonjha@gmail.com>';     // Last translator Email ID
 var team                 = 'Jobayer Arman <carbonjha@email.com>';     // Team's Email ID
@@ -77,10 +77,18 @@ var style = {
 
 // JavaScript related
 var script = {
-  src    : './src/scripts/*.js',                           // Path to JS custom scripts folder
-  dest   : './assets/scripts/',                            // Path to place the compiled JS custom scripts file
-  file   : 'script.js',                                    // Compiled JS custom file name
-  destFiles   : './assets/scripts/*.js'                    // Destination files
+  user: {
+    src    : './src/scripts/user/*.js',                      // Path to JS scripts folder
+    dest   : './assets/scripts/',                            // Path to place the compiled scripts file
+    file   : 'script.js',                                    // Compiled JS file name
+    destFiles   : './assets/scripts/*.js'                    // Destination files
+  },
+  vendor: {
+    src    : './src/scripts/vendor/*.js',                    // Path to JS scripts folder
+    dest   : './assets/scripts/',                            // Path to place the compiled scripts file
+    file   : 'vendor.js',                                    // Compiled JS file name
+    destFiles   : './assets/scripts/*.js'                    // Destination files
+  }
 }
 
 // Images related.
