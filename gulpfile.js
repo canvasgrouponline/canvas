@@ -160,14 +160,6 @@ var config = {
  * Notify Errors
  */
 function errorLog(error) {
-  var lineNumber = (error.line) ? 'Line ' + error.line + ' -- ' : '';
-  var column     = (error.column) ? 'Col ' + error.column : '';
-
-  notify({
-    title: 'Task [' + error.plugin + '] Failed',
-    message: lineNumber + '' + column
-  }).write(error); //Error Notification
-
   // Inspect the error object
   // console.log(error);
 
@@ -250,9 +242,10 @@ gulp.task('clean:all', gulpSequence('clean:css', 'clean:js', 'clean:build'));
  */
 gulp.task('lint:phpcs', function() {
   return gulp.src([watch.php, '!vendor/**/*', '!node_modules/**/*'])
+    .pipe(plumber({errorHandler: errorLog}))
     .pipe(phpcs({
       bin: 'vendor/bin/phpcs',
-      standard: 'PSR2',
+      standard: 'phpcs.xml',
       warningSeverity: 0
     }))
     .pipe(phpcs.reporter('log'));
