@@ -4,5 +4,3 @@
  *
  * @package canvas
  */
-
-?>

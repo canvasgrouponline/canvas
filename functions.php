@@ -14,5 +14,3 @@ require_once ( get_template_directory() . '/inc/custom-header.php' );
 require_once ( get_template_directory() . '/inc/enqueue.php' );
 require_once ( get_template_directory() . '/inc/pagination.php' );
 require_once ( get_template_directory() . '/inc/tweaks.php' );
-
-?>

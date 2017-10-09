@@ -6,6 +6,3 @@
  *
  * @package canvas
  */
-
-?>
-

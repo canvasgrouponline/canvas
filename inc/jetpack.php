@@ -30,9 +30,9 @@ add_action( 'after_setup_theme', 'canvas_photo_jetpack_setup' );
  * Custom render function for Infinite Scroll.
  */
 function canvas_photo_infinite_scroll_render() {
-	while ( have_posts() ) {
+	while (have_posts()) {
 		the_post();
-		if ( is_search() ) :
+		if (is_search()) :
 			get_template_part( 'template-parts/content', 'search' );
 		else :
 			get_template_part( 'template-parts/content', get_post_format() );
