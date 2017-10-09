@@ -250,7 +250,7 @@ gulp.task('clean:css', function() {
   return del([style.destFiles]);
 });
 gulp.task('clean:js', function() {
-  return del([script.destFiles]);
+  return del([script.user.destFiles]);
 });
 gulp.task('clean:build', function() {
   return del(build);
