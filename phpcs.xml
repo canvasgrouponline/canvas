@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Core">
+    <description>WordPress Coding Standards</description>
+
+    <!-- Treat all files as UTF-8. -->
+    <config name="encoding" value="utf-8"/>
+
+    <!-- Show colors in console -->
+    <arg value="-colors"/>
+
+    <!-- Default tab width for indentation fixes and such. -->
+    <arg name="tab-width" value="4"/>
+
+    <!-- Covers rule: Remove trailing whitespace at the end of each line of code. -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+</ruleset>
