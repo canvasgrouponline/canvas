@@ -1,22 +1,6 @@
 /**
- * Gulpfile.
- *
- * Gulp with WordPress.
- *
- * Implements:
- *      1. Live reloads browser with BrowserSync.
- *      2. CSS: Less to CSS conversion, error catching, Autoprefixing,
- *         CSS minification.
- *      3. JS: Concatenates & uglifies Custom JS files.
- *      4. Images: Minifies PNG, JPEG, GIF and SVG images.
- *      5. Watches files for changes in CSS or JS.
- *      6. Watches files for changes in PHP.
- *      7. InjectCSS instead of browser page reload.
- *      8. Generates .pot file for i18n and l10n.
- *
- * @author Ahmad Awais (@ahmadawais)
+ * Gulp WordPress Toolkit.
  * @author Jobayer Arman (@jobayerarman)
- * @version 1.0.3
  */
 
 /**
@@ -53,6 +37,7 @@ var buildInclude  = [
 
     // exclude files and folders
     '!node_modules/**/*',
+    '!vendor/**/*',
     '!files/**/*',
     '!style.css.map',
     '!gulpfile.js',
@@ -64,8 +49,8 @@ var text_domain          = 'canvas';                                  // Your te
 var destFile             = 'canvas.pot';                              // Name of the transalation file
 var packageName          = 'canvas';                                  // Package name
 var bugReport            = 'http://jobayerarman.github.io/';          // Where can users report bugs
-var lastTranslator       = 'Jobayer Arman <carbonjha@gmail.com>';     // Last translator Email ID
-var team                 = 'Jobayer Arman <carbonjha@email.com>';     // Team's Email ID
+var lastTranslator       = 'Jobayer Arman <jobayer.arman@gmail.com>';     // Last translator Email ID
+var team                 = 'Jobayer Arman <jobayer.arman@email.com>';     // Team's Email ID
 var translatePath        = './languages'                              // Where to save the translation files
 
 // Style related
@@ -163,6 +148,7 @@ var size         = require('gulp-size');             // Logs out the total size 
 var sort         = require('gulp-sort');             // Recommended to prevent unnecessary changes in pot-file.
 var wpPot        = require('gulp-wp-pot');           // For generating the .pot file.
 var zip          = require('gulp-zip');              // Using to zip up our packaged theme into a tasty zip file that can be installed in WordPress!
+var phpcs        = require('gulp-phpcs');
 
 // production variable
 var config = {
@@ -174,14 +160,6 @@ var config = {
  * Notify Errors
  */
 function errorLog(error) {
-  var lineNumber = (error.line) ? 'Line ' + error.line + ' -- ' : '';
-  var column     = (error.column) ? 'Col ' + error.column : '';
-
-  notify({
-    title: 'Task [' + error.plugin + '] Failed',
-    message: lineNumber + '' + column
-  }).write(error); //Error Notification
-
   // Inspect the error object
   // console.log(error);
 
@@ -258,14 +236,23 @@ gulp.task('clean:build', function() {
 gulp.task('clean:all', gulpSequence('clean:css', 'clean:js', 'clean:build'));
 
 /**
+ *
+ * Check the code with PHP_CodeSniffer against the WordPress Coding Standards.
+ *
+ */
+gulp.task('lint:phpcs', function() {
+  return gulp.src([watch.php, '!vendor/**/*', '!node_modules/**/*'])
+    .pipe(plumber({errorHandler: errorLog}))
+    .pipe(phpcs({
+      bin: 'vendor/bin/phpcs',
+      standard: 'phpcs.xml',
+      warningSeverity: 0
+    }))
+    .pipe(phpcs.reporter('log'));
+});
+
+/**
  * Task: `browser-sync`.
- *
- * Live Reloads, CSS injections, Localhost tunneling.
- *
- * This task does the following:
- *    1. Sets the project URL
- *    2. Sets inject CSS
- *    3. You may want to stop the browser from openning automatically
  */
 gulp.task( 'browser-sync', function() {
   browserSync.init( {
@@ -288,7 +275,6 @@ gulp.task( 'browser-sync', function() {
     notify: false,
   });
 });
-
 
 /**
  * Task: `styles`.
@@ -325,7 +311,6 @@ gulp.task('styles', ['clean:css'], function() {
     }));
 });
 
-
 /**
   * Task: `scripts`.
   *
@@ -352,7 +337,6 @@ gulp.task( 'scripts', ['clean:js'], function() {
     }));
 });
 
-
 /**
   * Task: `images`.
   *
@@ -369,7 +353,6 @@ gulp.task( 'images', function() {
   }))
   .pipe(gulp.dest(image.dest));
 });
-
 
 /**
   * WP POT Translation File Generator.
@@ -454,7 +437,7 @@ gulp.task('watch', ['browser-sync'], function() {
 });
 
 // reload browser
-gulp.task('watch-php', function(done) {
+gulp.task('watch-php', ['lint:phpcs'], function(done) {
   reload();
   done();
 });

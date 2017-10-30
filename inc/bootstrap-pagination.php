@@ -7,7 +7,7 @@ function wp_bootstrap_pagination( $args = array() ) {
 
     $defaults = array(
         'range'           => 4,
-        'custom_query'    => FALSE,
+        'custom_query'    => false,
         'previous_string' => __( 'Previous', 'canvas' ),
         'next_string'     => __( 'Next', 'canvas' ),
         'before_output'   => '<nav aria-label="Page navigation" class="post-nav text-center"><ul class="pagination">',
@@ -20,26 +20,26 @@ function wp_bootstrap_pagination( $args = array() ) {
     );
 
     $args['range'] = (int) $args['range'] - 1;
-    if ( !$args['custom_query'] )
+    if (!$args['custom_query'])
         $args['custom_query'] = @$GLOBALS['wp_query'];
     $count = (int) $args['custom_query']->max_num_pages;
     $page  = intval( get_query_var( 'paged' ) );
     $ceil  = ceil( $args['range'] / 2 );
 
-    if ( $count <= 1 )
-        return FALSE;
+    if ($count <= 1)
+        return false;
 
-    if ( !$page )
+    if (!$page)
         $page = 1;
 
-    if ( $count > $args['range'] ) {
-        if ( $page <= $args['range'] ) {
+    if ($count > $args['range']) {
+        if ($page <= $args['range']) {
             $min = 1;
             $max = $args['range'] + 1;
-        } elseif ( $page >= ($count - $ceil) ) {
+        } elseif ($page >= ($count - $ceil)) {
             $min = $count - $args['range'];
             $max = $count;
-        } elseif ( $page >= $args['range'] && $page < ($count - $ceil) ) {
+        } elseif ($page >= $args['range'] && $page < ($count - $ceil)) {
             $min = $page - $ceil;
             $max = $page + $ceil;
         }
@@ -53,14 +53,14 @@ function wp_bootstrap_pagination( $args = array() ) {
     $previous = esc_attr( get_pagenum_link($previous) );
 
     $firstpage = esc_attr( get_pagenum_link(1) );
-    if ( $firstpage && (1 != $page) )
+    if ($firstpage && (1 != $page))
         $echo .= '<li class="previous"><a href="' . $firstpage . '">' . __( 'First', 'canvas' ) . '</a></li>';
 
-    if ( $previous && (1 != $page) )
+    if ($previous && (1 != $page))
         $echo .= '<li><a href="' . $previous . '" title="' . __( 'previous', 'canvas') . '">' . $args['previous_string'] . '</a></li>';
 
-    if ( !empty($min) && !empty($max) ) {
-        for( $i = $min; $i <= $max; $i++ ) {
+    if (!empty($min) && !empty($max)) {
+        for($i = $min; $i <= $max; $i++) {
             if ($page == $i) {
                 $echo .= '<li class="active"><span class="active">' . str_pad( (int)$i, 2, '0', STR_PAD_LEFT ) . '</span></li>';
             } else {
@@ -71,14 +71,14 @@ function wp_bootstrap_pagination( $args = array() ) {
 
     $next = intval($page) + 1;
     $next = esc_attr( get_pagenum_link($next) );
-    if ($next && ($count != $page) )
+    if ($next && ($count != $page))
         $echo .= '<li><a href="' . $next . '" title="' . __( 'next', 'canvas') . '">' . $args['next_string'] . '</a></li>';
 
     $lastpage = esc_attr( get_pagenum_link($count) );
-    if ( $lastpage ) {
+    if ($lastpage) {
         $echo .= '<li class="next"><a href="' . $lastpage . '">' . __( 'Last', 'canvas' ) . '</a></li>';
     }
 
-    if ( isset($echo) )
+    if (isset($echo))
         echo $args['before_output'] . $echo . $args['after_output'];
 }

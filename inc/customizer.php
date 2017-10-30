@@ -45,7 +45,7 @@ add_action( 'customize_register', 'canvas_photo_theme_option' );
  * Sanitzie checkbox for WordPress customizer
  */
 function canvas_sanitize_checkbox( $input ) {
-    if ( $input == 1 ) {
+    if ($input == 1) {
         return 1;
     } else {
         return '';
@@ -56,7 +56,7 @@ function canvas_sanitize_checkbox( $input ) {
  * @package canvas
  */
 function canvas_sanitize_hexcolor( $color ) {
-    if ($unhashed = sanitize_hex_color_no_hash($color))
+    if ($unhashed == sanitize_hex_color_no_hash($color))
         return '#' . $unhashed;
     return $color;
 }
@@ -74,7 +74,7 @@ function canvas_sanitize_nohtml( $input ) {
  * @package canvas
  */
 function canvas_sanitize_number( $input ) {
-    if ( isset( $input ) && is_numeric( $input ) ) {
+    if (isset( $input ) && is_numeric( $input )) {
         return $input;
     }
 }
@@ -101,7 +101,7 @@ function canvas_sanitize_textarea( $input ) {
  */
 function canvas_sanitize_slidecat( $input ) {
     global $options_categories;
-    if ( array_key_exists( $input, $options_categories ) ) {
+    if (array_key_exists( $input, $options_categories )) {
         return $input;
     } else {
         return '';
@@ -114,7 +114,7 @@ function canvas_sanitize_slidecat( $input ) {
  */
 function canvas_sanitize_layout( $input ) {
     global $site_layout;
-    if ( array_key_exists( $input, $site_layout ) ) {
+    if (array_key_exists( $input, $site_layout )) {
         return $input;
     } else {
         return '';
@@ -127,7 +127,7 @@ function canvas_sanitize_layout( $input ) {
  */
 function canvas_sanitize_typo_size( $input ) {
     global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['sizes'] ) ) {
+    if (array_key_exists( $input, $typography_options['sizes'] )) {
         return $input;
     } else {
         return $typography_defaults['size'];
@@ -139,7 +139,7 @@ function canvas_sanitize_typo_size( $input ) {
  */
 function canvas_sanitize_typo_face( $input ) {
     global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['faces'] ) ) {
+    if (array_key_exists( $input, $typography_options['faces'] )) {
         return $input;
     } else {
         return $typography_defaults['face'];
@@ -151,7 +151,7 @@ function canvas_sanitize_typo_face( $input ) {
  */
 function canvas_sanitize_typo_style( $input ) {
     global $typography_options, $typography_defaults;
-    if ( array_key_exists( $input, $typography_options['styles'] ) ) {
+    if (array_key_exists( $input, $typography_options['styles'] )) {
         return $input;
     } else {
         return $typography_defaults['style'];
