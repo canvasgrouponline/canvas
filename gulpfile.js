@@ -55,7 +55,7 @@ var translatePath        = './languages'                              // Where t
 
 // Style related
 var style = {
-  src    : './src/styles/main.less',                       // Path to main .less file
+  src    : './src/styles/main.scss',                       // Path to main .scss file
   dest   : './assets/styles/',                             // Path to place the compiled CSS file
   destFiles  : './assets/styles/*.+(css|map)'              // Destination files
 };
@@ -109,7 +109,7 @@ var gulp         = require('gulp');                  // Gulp of-course
 var gutil        = require('gulp-util');             // Utility functions for gulp plugins
 
 // CSS related plugins.
-var less         = require('gulp-less');             // Gulp pluign for Sass compilation.
+var sass         = require('gulp-sass');             // Gulp plugin for Sass compilation.
 var cleancss     = require('gulp-clean-css');        // Minifies CSS files.
 var autoprefixer = require('gulp-autoprefixer');     // Autoprefixing magic.
 var sourcemaps   = require('gulp-sourcemaps');       // Maps code in a compressed file (E.g. style.css) back to it’s original position in a source file.
@@ -279,36 +279,28 @@ gulp.task( 'browser-sync', function() {
 /**
  * Task: `styles`.
  *
- * Compiles LESS, Autoprefixes it and Minifies CSS.
+ * Compiles SCSS, Autoprefixes it and Minifies CSS.
  *
  */
 var minifyCss = lazypipe()
   .pipe(cleancss, {keepSpecialComments: false});
 
-gulp.task('styles', ['clean:css'], function() {
+gulp.task('compileSass', ['clean:css'], function() {
   return gulp.src(style.src)
     .pipe(plumber({errorHandler: errorLog}))
     .pipe(gulpif(config.sourceMaps, sourcemaps.init()))
 
-    .pipe(less())
+    .pipe(sass().on('error', sass.logError))
 
-    .pipe(gulpif(config.sourceMaps, sourcemaps.write({includeContent: false}))) // By default the source maps include the source code
-    .pipe(gulpif(config.sourceMaps, sourcemaps.init({loadMaps: true})))         // Set to true to load existing maps for source files
-
-    .pipe(autoprefixer( AUTOPREFIXER_BROWSERS ) )
-
+    .pipe(autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulpif(config.sourceMaps, sourcemaps.write('.')))
 
     .pipe(gulpif(config.production, minifyCss()))
-
-
     .pipe(gulp.dest(style.dest))
-    .pipe(filter('**/*.css'))                                                     // Filtering stream to only css files
-    .pipe(browserSync.stream())                                                   // Injects CSS into browser
 
-    .pipe(size({
-      showFiles: true
-    }));
+    .pipe(filter('**/*.css'))
+    .pipe(browserSync.stream())
+    .pipe(size({showFiles: true}));
 });
 
 /**
@@ -411,19 +403,19 @@ gulp.task( 'translate', function() {
 
 // Package Distributable Theme
 gulp.task( 'build', function(cb) {
-  gulpSequence('clean:all', 'styles', 'scripts', 'buildFiles', 'buildZip', cb);
+  gulpSequence('clean:all', 'compileSass', 'scripts', 'buildFiles', 'buildZip', cb);
 });
 
 /**
  * Default Gulp task
  */
-gulp.task( 'default', gulpSequence('clean:all', 'styles', 'scripts', 'translate', 'images'));
+gulp.task( 'default', gulpSequence('clean:all', 'compileSass', 'scripts', 'translate', 'images'));
 
 /**
  * Run all the tasks sequentially
  * Use this task for development
  */
-gulp.task( 'serve', gulpSequence('styles', 'scripts', 'watch'));
+gulp.task( 'serve', gulpSequence('compileSass', 'scripts', 'watch'));
 
 /**
   * Watch Tasks.
@@ -431,7 +423,7 @@ gulp.task( 'serve', gulpSequence('styles', 'scripts', 'watch'));
   * Watches for file changes and runs specific tasks.
   */
 gulp.task('watch', ['browser-sync'], function() {
-  gulp.watch(watch.style, ['styles']);         // Reload on less file changes.
+  gulp.watch(watch.style, ['compileSass']);         // Reload on less file changes.
   gulp.watch(watch.php, ['watch-php']);        // Reload on PHP file changes.
   gulp.watch(watch.script, ['watch-scripts']); // Reload on script file changes.
 });
