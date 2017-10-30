@@ -7,7 +7,7 @@
     "url": "https://github.com/jobayerarman/"
   },
   "author": "Jobayer Arman <carbonjha@gmail.com> (https://jobayerarman.github.io/)",
-  "licenses": "UNLICENSED",
+  "license": "UNLICENSED",
   "private": true,
   "bugs": {
     "url": "https://github.com/jobayerarman/"
@@ -43,6 +43,7 @@
     "gulp-prompt": "^0.4.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
     "gulp-sequence": "^0.4.6",
     "gulp-shell": "^0.6.3",
     "gulp-size": "^2.1.0",
@@ -53,5 +54,10 @@
     "gulp-wp-pot": "^2.0.4",
     "gulp-zip": "^4.0.0",
     "lazypipe": "^1.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "4.0.0-beta",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.6"
   }
 }
