@@ -85,7 +85,7 @@ var image = {
 // Watch files paths.
 var watch = {
   style  : './src/styles/**/*.less',                       // Path to all *.less files inside css folder and inside them
-  script : './src/scripts/*.js',                           // Path to all custom JS files
+  script : './src/scripts/**/*.js',                           // Path to all custom JS files
   php    : './**/*.php'                                    // Path to all PHP files
 }
 
@@ -115,7 +115,7 @@ var autoprefixer = require('gulp-autoprefixer');     // Autoprefixing magic.
 var sourcemaps   = require('gulp-sourcemaps');       // Maps code in a compressed file (E.g. style.css) back to it’s original position in a source file.
 
 // JS related plugins.
-var jshint       = require('gulp-jshint');           // JSHint plugin for gulp
+var eslint       = require('gulp-eslint');           // ESlint plugin for gulp
 var concat       = require('gulp-concat');           // Concatenates JS files
 var uglify       = require('gulp-uglify');           // Minifies JS files
 
@@ -321,16 +321,16 @@ var minifyScripts = lazypipe()
   .pipe(uglify);
 
 gulp.task( 'scripts', ['clean:js'], function() {
-  return gulp.src(script.src)
+  return gulp.src(script.user.src)
     .pipe(plumber({errorHandler: errorLog}))
 
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(eslint())
+    .pipe(eslint.format())
 
-    .pipe(concat(script.file))
+    .pipe(concat(script.user.file))
     .pipe(gulpif(config.production, minifyScripts()))
 
-    .pipe(gulp.dest(script.dest))
+    .pipe(gulp.dest(script.user.dest))
 
     .pipe(size({
       showFiles: true
