@@ -437,7 +437,7 @@ gulp.task('watch', ['browser-sync'], function() {
 });
 
 // reload browser
-gulp.task('watch-php', ['lint:phpcs'], function(done) {
+gulp.task('watch-php', function(done) {
   reload();
   done();
 });

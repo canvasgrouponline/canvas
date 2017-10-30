@@ -23,9 +23,15 @@
   </head>
 
   <body <?php body_class(); ?>>
+
     <div id="page" class="site">
-        <header id="masthead" class="site-header" role="banner">
-            <h1 class="text-center">Site Header</h1>
-        </header>
+        <div class="container">
+          <header id="masthead" class="site-header row" role="banner">
+            <div class="col-md-12">
+              <h1 class="text-center">Site Header</h1>
+            </div>
+          </header>
+        </div>
+        <!-- ================================================== -->
         <div id="content" class="site-content">
 
