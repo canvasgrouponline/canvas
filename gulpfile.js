@@ -18,31 +18,31 @@ var projectURL           = 'http://canvasonline.dev';                 // Project
 var productURL           = './';                                      // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder
 var build                = './buildTheme/';                           // Files that you want to package into a zip go here
 var buildInclude  = [
-    // include common file types
-    '**/*.php',
-    '**/*.html',
-    '**/*.css',
-    '**/*.js',
-    '**/*.jpg',
-    '**/*.png',
-    '**/*.svg',
-    '**/*.ttf',
-    '**/*.otf',
-    '**/*.eot',
-    '**/*.woff',
-    '**/*.woff2',
+  // include common file types
+  '**/*.php',
+  '**/*.html',
+  '**/*.css',
+  '**/*.js',
+  '**/*.jpg',
+  '**/*.png',
+  '**/*.svg',
+  '**/*.ttf',
+  '**/*.otf',
+  '**/*.eot',
+  '**/*.woff',
+  '**/*.woff2',
 
-    // include specific files and folders
-    'screenshot.png',
+  // include specific files and folders
+  'screenshot.png',
 
-    // exclude files and folders
-    '!node_modules/**/*',
-    '!vendor/**/*',
-    '!files/**/*',
-    '!style.css.map',
-    '!gulpfile.js',
-    '!src/*'
-  ];
+  // exclude files and folders
+  '!node_modules/**/*',
+  '!vendor/**/*',
+  '!files/**/*',
+  '!style.css.map',
+  '!gulpfile.js',
+  '!src/*'
+];
 
 // Translation related.
 var text_domain          = 'canvas';                                  // Your textdomain here
@@ -84,7 +84,7 @@ var image = {
 
 // Watch files paths.
 var watch = {
-  style  : './src/styles/**/*.less',                       // Path to all *.less files inside css folder and inside them
+  style  : './src/styles/**/*.scss',                       // Path to all *.scss files inside css folder and inside them
   script : './src/scripts/**/*.js',                           // Path to all custom JS files
   php    : './**/*.php'                                    // Path to all PHP files
 }
