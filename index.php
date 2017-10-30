@@ -13,5 +13,7 @@
  */
 
 get_header();
-
+    if ( is_home() ) :
+        get_template_part( 'template-parts/page/content', 'front-page' );
+    endif;
 get_footer();
