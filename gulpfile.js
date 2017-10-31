@@ -70,8 +70,8 @@ var script = {
   },
   vendor: {
     src    : ['./src/scripts/vendor/*.js',
-      './node_modules/bootstrap/dist/js/bootstrap.js',
-      './node_modules/popper.js/dist/umd/popper.js'],        // Path to vendor JS scripts folder
+      './node_modules/popper.js/dist/umd/popper.js',
+      './node_modules/bootstrap/dist/js/bootstrap.js'],        // Path to vendor JS scripts folder
     dest   : './assets/scripts/',                            // Path to place the compiled scripts file
     file   : 'vendor.js',                                    // Compiled JS file name
     destFiles   : './assets/scripts/*.js'                    // Destination files
@@ -86,8 +86,8 @@ var image = {
 
 // Watch files paths.
 var watch = {
-  style  : './src/styles/**/*.scss',                       // Path to all *.scss files inside css folder and inside them
-  script : './src/scripts/**/*.js',                           // Path to all custom JS files
+  style  : './src/styles/**/*.scss',                       // Path to all *.scss files
+  script : './src/scripts/**/*.js',                        // Path to all custom JS files
   php    : './**/*.php'                                    // Path to all PHP files
 }
 
@@ -134,7 +134,7 @@ var prompt       = require('gulp-prompt');
 var replace      = require('gulp-replace');
 var gitChangelog = require('gulp-conventional-changelog');
 
-// Utility related plugins.
+// Utility plugins.
 var browserSync  = require('browser-sync').create(); // Reloads browser and injects CSS. Time-saving synchronised browser testing.
 var cache        = require('gulp-cache');
 var del          = require('del');                   // Delete files and folders
@@ -208,7 +208,7 @@ gulp.task('update:all-name', gulpSequence('update-function-name', 'update-packag
 function getPackageJsonVersion() {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 }
-gulp.task( 'bump-version', function (done) {
+gulp.task('bump-version', function (done) {
   return gulp.src(['./package.json'])
     .pipe(bump({type: 'patch'}).on('error', gutil.log))
     .pipe(gulp.dest('./'));
@@ -257,7 +257,7 @@ gulp.task('lint:phpcs', function() {
 /**
  * Task: `browser-sync`.
  */
-gulp.task( 'browser-sync', function() {
+gulp.task('browser-sync', function() {
   browserSync.init( {
 
     // Project URL.
@@ -344,7 +344,7 @@ gulp.task('build:scripts', ['clean:js'], function() {
   * Minifies PNG, JPEG, GIF and SVG images.
   *
   */
-gulp.task( 'images', function() {
+gulp.task('images', function() {
   gulp.src(image.src)
     .pipe(imagemin({
       interlaced: true,
@@ -364,7 +364,7 @@ gulp.task( 'images', function() {
   *     3. Applies wpPot with the variable set at the top of this file
   *     4. Generate a .pot file of i18n that can be used for l10n to build .mo file
   */
-gulp.task( 'translate', function() {
+gulp.task('translate', function() {
   return gulp.src( projectPHPWatchFiles )
     .pipe(sort())
     .pipe(wpPot({
@@ -411,14 +411,14 @@ gulp.task('buildZip', function () {
 });
 
 // Package Distributable Theme
-gulp.task( 'build', function(cb) {
+gulp.task('build', function(cb) {
   gulpSequence('clean:all', 'build:styles', 'scripts', 'buildFiles', 'buildZip', cb);
 });
 
 /**
  * Default Gulp task
  */
-gulp.task( 'default', function(cb) {
+gulp.task('default', function(cb) {
   gulpSequence('clean:all', 'build:styles', 'build:scripts', 'translate', 'images', cb);
 });
 
@@ -426,8 +426,14 @@ gulp.task( 'default', function(cb) {
  * Run all the tasks sequentially
  * Use this task for development
  */
-gulp.task( 'serve', function(cb) {
+gulp.task('serve', function(cb) {
   gulpSequence('build:styles', 'build:scripts', 'watch', cb);
+});
+
+// reload browser
+gulp.task('watch:scripts', ['build:scripts'], function(done) {
+  reload();
+  done();
 });
 
 /**
@@ -436,17 +442,7 @@ gulp.task( 'serve', function(cb) {
   * Watches for file changes and runs specific tasks.
   */
 gulp.task('watch', ['browser-sync'], function() {
-  gulp.watch(watch.style, ['build:styles']);         // Reload on less file changes.
-  gulp.watch(watch.php, ['watch-php']);             // Reload on PHP file changes.
-  gulp.watch(watch.script, ['watch-scripts']);      // Reload on script file changes.
+  gulp.watch(watch.php).on('change', reload);         // Reload on PHP file changes.
+  gulp.watch(watch.style, ['build:styles']);          // Reload on less file changes.
+  gulp.watch(watch.script, ['watch:scripts']);        // Reload on script file changes.
 });
-
-// reload browser
-gulp.task('watch-php', function(done) {
-  reload();
-  done();
-});
-gulp.task('watch-scripts', ['build:scripts'], function(done) {
-  reload();
-  done();
-})
