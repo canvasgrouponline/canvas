@@ -25,11 +25,11 @@ function canvas_photo_load_scripts() {
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-migrate.min');
 
-        // Bootstrap
-    wp_register_script('bootstrap-scripts', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', array('jquery'), null, true);
-    wp_enqueue_script('bootstrap-scripts');
+    // Bootstrap
+    wp_register_script('vendor-scripts', get_template_directory_uri() . '/assets/scripts/vendor.js', array('jquery'), null, true);
+    wp_enqueue_script('vendor-scripts');
 
-        // Custom Scripts
+    // Custom Scripts
     wp_register_script('canvas_photo_custom_script', get_template_directory_uri() . '/assets/scripts/script.js', array('jquery'), null, true);
     wp_enqueue_script('canvas_photo_custom_script');
 
