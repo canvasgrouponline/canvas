@@ -446,3 +446,13 @@ gulp.task('watch', ['browser-sync'], function() {
   gulp.watch(watch.style, ['build:styles']);          // Reload on less file changes.
   gulp.watch(watch.script, ['watch:scripts']);        // Reload on script file changes.
 });
+
+// reload browser
+// gulp.task('watch-php', function(done) {
+//   reload();
+//   done();
+// });
+// gulp.task('watch-scripts', ['scripts'], function(done) {
+//   reload();
+//   done();
+// })
