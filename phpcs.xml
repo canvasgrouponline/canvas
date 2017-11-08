@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Core">
+    <description>WordPress Coding Standards</description>
+
+    <!-- Treat all files as UTF-8 -->
+    <config name="encoding" value="utf-8"/>
+
+    <!-- Show colors in console -->
+    <arg value="-colors"/>
+
+    <!-- Default tab width for indentation fixes and such -->
+    <arg name="tab-width" value="4"/>
+
+    <!-- Your indentation should always reflect logical structure. -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="exact" value="false"/>
+            <property name="indent" value="4"/>
+            <property name="tabIndent" value="true"/>
+            <property name="ignoreIndentationTokens" type="array" value="T_HEREDOC,T_NOWDOC,T_INLINE_HTML"/>
+        </properties>
+    </rule>
+
+    <!-- Remove trailing whitespace at the end of each line of code. -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+    <!-- Use elseif, not else if -->
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+
+    <!-- Opening and Closing PHP Tags -->
+    <rule ref="Squiz.PHP.EmbeddedPhp">
+        <exclude name="Squiz.PHP.EmbeddedPhp.SpacingBefore"/>
+        <exclude name="Squiz.PHP.EmbeddedPhp.Indent"/>
+        <exclude name="Squiz.PHP.EmbeddedPhp.OpenTagIndent"/>
+        <exclude name="Squiz.PHP.EmbeddedPhp.SpacingAfter"/>
+    </rule>
+
+    <!-- No Shorthand PHP Tags -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+
+    <!-- Remove trailing whitespace at the end of each line of code. -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+    <!-- Omitting the closing PHP tag at the end of a file is preferred. -->
+    <rule ref="PSR2.Files.ClosingTag"/>
+
+    <!-- Always put spaces after commas, and on both sides of logical,
+         comparison, string and assignment operators. -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Put spaces on both sides of the opening and closing parenthesis of
+         if, elseif, foreach, for, and switch blocks. -->
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing"/>
+
+    <!-- Class names should use capitalized words separated by underscores. -->
+    <rule ref="PEAR.NamingConventions.ValidClassName"/>
+
+    <!-- Constants should be in all upper-case with underscores separating words. -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+    <!-- Readability is more important than cleverness or brevity. -->
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments"/>
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+
+    <!-- The eval() construct is very dangerous, and is impossible to secure. ... these must not be used. -->
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Squiz.PHP.Eval.Discouraged">
+        <type>error</type>
+        <message>eval() is a security risk so not allowed.</message>
+    </rule>
+
+    <!--
+    #############################################################################
+    Not in the handbook: Generic sniffs.
+    #############################################################################
+    -->
+    <!-- Important to prevent issues with content being sent before headers. -->
+    <rule ref="Generic.Files.ByteOrderMark"/>
+
+    <!-- All line endings should be \n. -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <!-- All files should end with a new line. -->
+    <rule ref="Generic.Files.EndFileNewline"/>
+
+    <!-- Lowercase PHP constants, like true, false and null. -->
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+
+    <!-- Lowercase PHP keywords, like class, function and case. -->
+    <rule ref="Generic.PHP.LowerCaseKeyword"/>
+</ruleset>
