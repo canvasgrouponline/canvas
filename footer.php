@@ -14,7 +14,7 @@
         <!-- ================================================== -->
 
         <!-- Footer -->
-        <footer class="site-footer">           
+        <footer class="site-footer">
           <div class="container">
             <div class="row">
               <div id="widget-1" class="col-md-3 widget">
