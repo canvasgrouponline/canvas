@@ -186,17 +186,15 @@ function errorLog(error) {
  *
  * Task:
  */
-gulp.task('update-function-name', function(done) {
+gulp.task('update-function-name', function() {
   return gulp.src([ './**/*.php' ])
-    .pipe(replace( 'desher-khobor', 'canvas' ))
+    .pipe(replace( '', 'canvas' ))
     .pipe(gulp.dest( './' ));
-  done();
 });
-gulp.task('update-package-name', function(done) {
+gulp.task('update-package-name', function() {
   return gulp.src([ './**/*.php' ])
     .pipe(replace( /(@package)(\s*)(.*)/, '$1$2' +project ))
     .pipe(gulp.dest( './' ));
-  done();
 });
 gulp.task('update:all-name', gulpSequence('update-function-name', 'update-package-name'));
 
@@ -208,17 +206,15 @@ gulp.task('update:all-name', gulpSequence('update-function-name', 'update-packag
 function getPackageJsonVersion() {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 }
-gulp.task('bump-version', function (done) {
+gulp.task('bump-version', function() {
   return gulp.src(['./package.json'])
     .pipe(bump({type: 'patch'}).on('error', gutil.log))
     .pipe(gulp.dest('./'));
-  done();
 });
-gulp.task('update-wp-style-css', function(done) {
+gulp.task('update-wp-style-css', function() {
   return gulp.src(['./style.css'])
     .pipe(replace( /(Version:)(\s*)(.*)/, '$1$2' + getPackageJsonVersion() ))
     .pipe(gulp.dest('./'));
-  done();
 });
 gulp.task('bump:all', gulpSequence('bump-version', 'update-wp-style-css'));
 
