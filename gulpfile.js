@@ -14,7 +14,7 @@
 // START Editing Project Variables.
 // Project related.
 var project              = 'canvas';                                  // Project Name
-var projectURL           = 'http://canvasonline.dev';                 // Project URL
+var projectURL           = 'http://canvasphoto.dev';                  // Project URL
 var productURL           = './';                                      // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder
 var build                = './buildTheme/';                           // Files that you want to package into a zip go here
 var buildInclude  = [
